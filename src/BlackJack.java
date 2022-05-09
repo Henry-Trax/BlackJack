@@ -1,11 +1,16 @@
 import BlackJack.Card;
 
+import java.util.Scanner;
+
 public class BlackJack {
 
     public static void main(String[] args) {
 
-        Card[] cards = new Card[4];
+        Scanner scanner = new Scanner(System.in);
 
+        Card card = new Card('♦', "K", 10);
+
+        scanner.nextLine();
     }
 
 }
