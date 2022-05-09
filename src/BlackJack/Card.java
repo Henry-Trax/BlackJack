@@ -2,12 +2,13 @@ package BlackJack;
 
 public class Card {
 
+    private boolean hiden = false;
     private char suit;
     private int cardScore;
     private String value;
     private String[] sprite;
 
-    public Card(char suit, String value,int aceValue) {
+    public Card(char suit, String value, int aceValue) {
         this.suit = suit;
         this.value = value;
 
@@ -42,11 +43,11 @@ public class Card {
         template[2] = String.format((template[2]), suit);
         template[3] = String.format((template[3]), value);
 
+        Displays.clearScreen();
+
         for (String line : template) {
             System.out.println(line);
         }
-
-
     }
 
 }

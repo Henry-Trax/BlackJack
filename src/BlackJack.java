@@ -1,4 +1,5 @@
 import BlackJack.Card;
+import BlackJack.Deck;
 
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class BlackJack {
 
         Scanner scanner = new Scanner(System.in);
 
-        Card card = new Card('♦', "K", 10);
+        Deck deck = new Deck(1);
 
         scanner.nextLine();
     }
