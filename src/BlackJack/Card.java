@@ -3,9 +3,9 @@ package BlackJack;
 public class Card {
 
     private boolean isHidden = false;
-    private char suit;
+    private final char suit;
     private int cardScore;
-    private String value;
+    private final String value;
     private String[] sprite;
 
     public Card(char suit, String value, int aceValue) {
@@ -56,5 +56,9 @@ public class Card {
 
     public void setHidden(boolean hidden) {
         this.isHidden = hidden;
+    }
+
+    public int getCardScore() {
+        return cardScore;
     }
 }

@@ -1,2 +1,2 @@
 chcp 65001
-java BlackJack
+java TestBlackJack

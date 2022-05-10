@@ -1,5 +1,6 @@
 package BlackJack;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
 
@@ -21,7 +22,6 @@ public class Deck {
         for (char suit : new char[]{'♠','♥','♦','♣'}) {
 
             for (String value : new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"}) {
-
                 deckCards.add(new Card(suit, value, aceValue));
                 cardCount++;
 
@@ -29,6 +29,7 @@ public class Deck {
 
         }
 
+        shuffle();
     }
 
     public Card drawCard(boolean isHidden) {
@@ -40,6 +41,37 @@ public class Deck {
         deckCards.remove(0);
 
         return usedCards.get(numberOfDrawnCards++);
+    }
+
+    public double cardCountAverage() {
+        int cardsChecked = 0;
+        double total = 0;
+
+        for (Card card : deckCards) {
+            total += card.getCardScore();
+            cardsChecked++;
+
+        }
+
+        for (Card card : usedCards) {
+
+            if (card.isHidden()) {
+                total += card.getCardScore();
+                cardsChecked++;
+
+            }
+
+        }
+
+        if (cardsChecked == 0) {
+            return 0;
+        }
+
+        return total / cardsChecked;
+    }
+
+    public void shuffle() {
+        Collections.shuffle(deckCards);
     }
 
 }
