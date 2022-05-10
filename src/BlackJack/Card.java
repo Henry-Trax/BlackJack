@@ -2,7 +2,7 @@ package BlackJack;
 
 public class Card {
 
-    private boolean hiden = false;
+    private boolean hidden = false;
     private char suit;
     private int cardScore;
     private String value;
