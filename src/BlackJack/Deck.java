@@ -1,9 +1,12 @@
 package BlackJack;
+import java.util.ArrayList;
 
 public class Deck {
 
     private int aceValue;
-    Card[] deck = new Card[52];
+    private ArrayList<Card> deckCards = new ArrayList<Card>();
+    private ArrayList<Card> usedCards = new ArrayList<Card>();
+    private int numberOfDrawnCards = 0;
 
     public Deck(int aceValue) {
         this.aceValue = aceValue;
@@ -19,12 +22,24 @@ public class Deck {
 
             for (String value : new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"}) {
 
-                deck[cardCount] = new Card(suit, value, aceValue);
+                deckCards.add(new Card(suit, value, aceValue));
+                cardCount++;
 
             }
 
         }
 
+    }
+
+    public Card drawCard(boolean isHidden) {
+
+        usedCards.add(deckCards.get(0));
+
+        usedCards.get(numberOfDrawnCards).setHidden(isHidden);
+
+        deckCards.remove(0);
+
+        return usedCards.get(numberOfDrawnCards++);
     }
 
 }

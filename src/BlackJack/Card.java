@@ -2,7 +2,7 @@ package BlackJack;
 
 public class Card {
 
-    private boolean hidden = false;
+    private boolean isHidden = false;
     private char suit;
     private int cardScore;
     private String value;
@@ -43,11 +43,18 @@ public class Card {
         template[2] = String.format((template[2]), suit);
         template[3] = String.format((template[3]), value);
 
-        Displays.clearScreen();
-
-        for (String line : template) {
-            System.out.println(line);
-        }
+        sprite = template;
     }
 
+    public String[] getSprite() {
+        return sprite;
+    }
+
+    public boolean isHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.isHidden = hidden;
+    }
 }
