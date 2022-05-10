@@ -8,32 +8,19 @@ import java.util.Scanner;
 public class TestBlackJack {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-
-        Deck deck = new Deck(1);
-
-        Hand hand = new Hand("Player")
-
-        Displays.displayCards(hand);
-
-
-        scanner.nextLine();
     }
 
     public static void testDeckDrawing() {
 
-
         Deck deck = new Deck(1);
 
         for (int i = 0; i < 52; i++) {
-            Card card = deck.drawCard(true);
+            Card card = deck.drawCard();
 
             for (String line : card.getSprite()) {
                 System.out.println(line);
 
             }
-
         }
     }
 
@@ -42,9 +29,9 @@ public class TestBlackJack {
 
         for (int i = 0; i < 52; i++) {
             if (true) {
-                Card card = deck.drawCard(true);
+                Card card = deck.drawCard();
             }else {
-                Card card = deck.drawCard(false);
+                Card card = deck.drawCard();
             }
 
         }

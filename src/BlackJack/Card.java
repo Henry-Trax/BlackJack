@@ -40,8 +40,9 @@ public class Card {
                 "└─────┘"};
 
         template[1] = String.format((template[1]), value);
-        template[2] = String.format((template[2]), suit);
         template[3] = String.format((template[3]), value);
+
+        template[2] = String.format((template[2]), suit);
 
         sprite = template;
     }

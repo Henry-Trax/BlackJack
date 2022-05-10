@@ -32,12 +32,9 @@ public class Deck {
         shuffle();
     }
 
-    public Card drawCard(boolean isHidden) {
+    public Card drawCard() {
 
         usedCards.add(deckCards.get(0));
-
-        usedCards.get(numberOfDrawnCards).setHidden(isHidden);
-
         deckCards.remove(0);
 
         return usedCards.get(numberOfDrawnCards++);
