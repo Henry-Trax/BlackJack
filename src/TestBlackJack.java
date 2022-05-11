@@ -1,9 +1,5 @@
 import BlackJack.Card;
 import BlackJack.Deck;
-import BlackJack.Hand;
-import Util.Displays;
-
-import java.util.Scanner;
 
 public class TestBlackJack {
 
