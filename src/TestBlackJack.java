@@ -1,5 +1,5 @@
-import BlackJack.Card;
-import BlackJack.Deck;
+import blackjack.cards.Card;
+import blackjack.cards.Deck;
 
 public class TestBlackJack {
 
@@ -8,7 +8,7 @@ public class TestBlackJack {
 
     public static void testDeckDrawing() {
 
-        Deck deck = new Deck(1);
+        Deck deck = new Deck(1, 1);
 
         for (int i = 0; i < 52; i++) {
             Card card = deck.drawCard();
@@ -21,7 +21,7 @@ public class TestBlackJack {
     }
 
     public static void testCardCounting() {
-        Deck deck = new Deck(1);
+        Deck deck = new Deck(1, 1);
 
         for (int i = 0; i < 52; i++) {
             if (true) {
@@ -37,7 +37,7 @@ public class TestBlackJack {
     }
 
     public static void testShuffle() {
-        Deck deck = new Deck(1);
+        Deck deck = new Deck(1, 1);
         deck.shuffle();
 
         System.out.println();

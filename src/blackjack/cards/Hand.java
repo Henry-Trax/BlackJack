@@ -1,17 +1,19 @@
-package BlackJack;
+package blackjack.cards;
+
+import blackjack.cards.Card;
 
 import java.util.ArrayList;
 
-public class DealerHand extends Hand{
+abstract class Hand {
 
     private final ArrayList<Card> cards = new ArrayList<Card>();
-    private String name;
 
-    @Override
+    protected ArrayList<Card> getCards() {
+        return cards;
+    }
+
     protected void addCard(Card card) {
         this.cards.add(card);
     }
-
-
 
 }

@@ -1,18 +1,23 @@
-package BlackJack;
+package blackjack.cards;
+import blackjack.cards.Card;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
 
+    private int decksInUse = 0;
     private int aceValue;
     private ArrayList<Card> deckCards = new ArrayList<Card>();
     private ArrayList<Card> usedCards = new ArrayList<Card>();
     private int numberOfDrawnCards = 0;
 
-    public Deck(int aceValue) {
+    public Deck(int aceValue, int decksInUse) {
         this.aceValue = aceValue;
 
-        makeDeck();
+        makeDecks(decksInUse);
+
+        this.decksInUse = decksInUse;
     }
 
     private void makeDeck() {
@@ -71,4 +76,31 @@ public class Deck {
         Collections.shuffle(deckCards);
     }
 
+
+    public void resetDeck(int decksInUse) {
+        usedCards.removeAll(usedCards);
+        deckCards.removeAll(deckCards);
+    }
+
+    private void makeDecks(int decksInUse) {
+        for (int i = 0; i < decksInUse - this.decksInUse; i++) {
+            makeDeck();
+        }
+    }
+
+    public int getAceValue() {
+        return aceValue;
+    }
+
+    public void setAceValue(int aceValue) {
+
+        for (Card card : deckCards) {
+            card.setAceValue(aceValue);
+        }
+        for (Card card : usedCards) {
+            card.setAceValue(aceValue);
+        }
+
+        this.aceValue = aceValue;
+    }
 }
