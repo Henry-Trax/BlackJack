@@ -26,12 +26,10 @@ public class Deck {
 
         for (char suit : new char[]{'♠','♥','♦','♣'}) {
 
-            for (String value : new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"}) {
+            for (String value : new String[]{"A","2","3","4","5","6","7","8","9","10","J","K","Q"}) {
                 deckCards.add(new Card(suit, value, aceValue));
                 cardCount++;
-
             }
-
         }
 
         shuffle();
@@ -76,7 +74,6 @@ public class Deck {
         Collections.shuffle(deckCards);
     }
 
-
     public void resetDeck(int decksInUse) {
         usedCards.removeAll(usedCards);
         deckCards.removeAll(deckCards);
@@ -93,14 +90,10 @@ public class Deck {
     }
 
     public void setAceValue(int aceValue) {
-
-        for (Card card : deckCards) {
-            card.setAceValue(aceValue);
-        }
-        for (Card card : usedCards) {
-            card.setAceValue(aceValue);
-        }
-
         this.aceValue = aceValue;
+    }
+
+    public int size() {
+        return deckCards.size();
     }
 }

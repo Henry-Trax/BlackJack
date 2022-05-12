@@ -6,14 +6,17 @@ public class PlayerHand extends Hand {
 
     public PlayerHand(String name) {
         this.setName(name);
+        this.setColor();
     }
 
-    @Override
     protected void addCard(Card card) {
         this.getCards().add(card);
+        updateHandSprite();
 
         setLastCardInHandToHidden();
     }
+
+
 
     private void setLastCardInHandToHidden() {
         for (Card card : this.getCards()) {
@@ -30,4 +33,5 @@ public class PlayerHand extends Hand {
     public void setName(String name) {
         this.name = name;
     }
+
 }

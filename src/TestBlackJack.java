@@ -1,9 +1,21 @@
 import blackjack.cards.Card;
+import blackjack.cards.DealerHand;
 import blackjack.cards.Deck;
+import blackjack.cards.PlayerHand;
 
 public class TestBlackJack {
 
     public static void main(String[] args) {
+
+        PlayerHand player1 = new PlayerHand("Henry");
+        PlayerHand player2 = new PlayerHand("Jamie");
+        PlayerHand player3 = new PlayerHand("Marcin");
+        PlayerHand player4 = new PlayerHand("Tony");
+        DealerHand dealer = new DealerHand();
+        PlayerHand player5 = new PlayerHand("Brandon");
+        PlayerHand player6 = new PlayerHand("Robert");
+        PlayerHand player7 = new PlayerHand("Harry");
+
     }
 
     public static void testDeckDrawing() {

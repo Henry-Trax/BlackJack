@@ -4,10 +4,9 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static int askInt(String prompt) {
         System.out.print(prompt);
+        Scanner scanner = new Scanner(System.in);
 
         try {
             int num = scanner.nextInt();
@@ -21,6 +20,7 @@ public class UserInterface {
 
     public static String askString(String prompt) {
         System.out.print(prompt);
+        Scanner scanner = new Scanner(System.in);
 
         return scanner.nextLine();
     }

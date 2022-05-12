@@ -33,7 +33,7 @@ public class Displays {
             String formatString = String.format(("%" + ( padding - (string.length()) / 2) + "s"), " ") + "%s" + String.format(("%" + ( padding - (string.length()) / 2) + "s"), " ");
             string = String.format(formatString.replace(' ', '_'), string);
         } else {
-            String formatString = String.format(("[%" + ( padding - (string.length()) / 2) + "s"), " ") + "%s" + String.format(("%" + ( (padding - 1) - (string.length()) / 2) + "s"), " ");
+            String formatString = String.format(("%" + ( padding - (string.length()) / 2) + "s"), " ") + "%s" + String.format(("%" + ( (padding - 1) - (string.length()) / 2) + "s"), " ");
             string = String.format(formatString.replace(' ', '_'), string);
         }
 
