@@ -2,21 +2,28 @@ package blackjack.cards;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 abstract class Hand {
 
     private ArrayList<String> handSprite = new ArrayList<String>();
 
     private ArrayList<Card> cards = new ArrayList<Card>();
-    protected static int colourCount = 0;
-    protected static String[] colors = new String[]{"\u001b[90;1m", "\u001b[91;1m", "\u001b[92;1m", "\u001b[93;1m", "\u001b[94;1m", "\u001b[95;1m", "\u001b[96;1m", "\u001b[97;1m"};
+    protected static int colourCount = 1;
+    protected static String[] colors = new String[]{"\u001b[90;1m", "\u001b[91;1m", "\u001b[92;1m", "\u001b[93;1m", "\u001b[94;1m", "\u001b[95;1m", "\u001b[96;1m"};
     protected static String colorReset = "\u001b[0m";
     protected String color;
     protected String state;
-    protected int wins = 0;
+    protected int points = 0;
 
-    public void incrementWin() {
-        wins += 1;
+
+    public int getPoints() {
+        return points;
+    }
+
+
+    public void incrementPoints(int i) {
+        points += i;
     }
 
     public int getTotal() {
@@ -37,6 +44,21 @@ abstract class Hand {
         return state;
     }
 
+    public void setState() {
+        if (getTotal() == 21) {
+            state = "BJ";
+        }
+
+        if (getTotal() > 21) {
+            state = "Bust";
+        }
+
+        if (!Objects.equals(getState(), "Fold") || !Objects.equals(getState(), "Bust") || !Objects.equals(getState(), "BlackJack")) {
+            this.state = String.valueOf(getTotal());
+        }
+
+    }
+
     public void setState(String state) {
         this.state = state;
     }
@@ -50,15 +72,15 @@ abstract class Hand {
     }
 
     public void setColor() {
-        if (++colourCount == 8) {
+        if (colourCount == 7) {
             colourCount = 0;
         }
 
-        this.color = colors[colourCount];
+        this.color = colors[colourCount++];
     }
 
     protected void updateHandSprite() {
-        handSprite.removeAll(handSprite);
+        handSprite.clear();
 
         int spriteCounter = 0;
         int cardCounter = 0;
@@ -92,10 +114,5 @@ abstract class Hand {
     public ArrayList<String> getHandSprite() {
         return handSprite;
     }
-
-    public static int getColourCount() {
-        return colourCount;
-    }
-
 
 }

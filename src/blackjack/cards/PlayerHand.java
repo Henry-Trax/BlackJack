@@ -10,13 +10,12 @@ public class PlayerHand extends Hand {
     }
 
     protected void addCard(Card card) {
+
         this.getCards().add(card);
         updateHandSprite();
 
         setLastCardInHandToHidden();
     }
-
-
 
     private void setLastCardInHandToHidden() {
         for (Card card : this.getCards()) {

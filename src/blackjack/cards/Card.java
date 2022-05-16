@@ -57,15 +57,15 @@ public class Card {
             break;
         }
         case "J": {
-            this.cardScore = 11;
+            this.cardScore = 10;
             break;
         }
         case "Q": {
-            this.cardScore = 12;
+            this.cardScore = 10;
             break;
         }
         case "K": {
-            this.cardScore = 13;
+            this.cardScore = 10;
         }
         }
         createSprite();

@@ -75,8 +75,8 @@ public class Deck {
     }
 
     public void resetDeck(int decksInUse) {
-        usedCards.removeAll(usedCards);
-        deckCards.removeAll(deckCards);
+        usedCards.clear();
+        deckCards.clear();
     }
 
     private void makeDecks(int decksInUse) {

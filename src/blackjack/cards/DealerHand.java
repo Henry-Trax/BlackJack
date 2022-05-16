@@ -2,8 +2,7 @@ package blackjack.cards;
 
 public class DealerHand extends Hand{
 
-    private final String name = "Dealer";
-    private final String[] hiddenCard = new String[]{"┌─────┐","│/////│","│\\\\\\\\\\│","│/////│","└─────┘"};
+    private final String[] hiddenCard = new String[]{"┌─────┐","│/ / /│","│\\ \\ \\│","│/ / /│","└─────┘"};
     public DealerHand() {
         this.setColor();
     }
@@ -11,11 +10,12 @@ public class DealerHand extends Hand{
     protected void addCard(Card card) {
         this.getCards().add(card);
         updateHandSprite();
-
-
     }
 
-
+    @Override
+    public int getTotal() {
+        return super.getTotal() - getCards().get(getCards().size() - 1).getCardScore();
+    }
 
     @Override
     protected void updateHandSprite() {
@@ -50,7 +50,8 @@ public class DealerHand extends Hand{
         }
     }
 
-
-
+    public void superUpdateHandSprite() {
+        super.updateHandSprite();
+    }
 
 }
