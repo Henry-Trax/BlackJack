@@ -86,10 +86,10 @@ public class Game {
                     }
                 }
 
-                if (playerCount == 1) {
+                if (playerCount == 1 && !isStandBustOrBJ(dealerHands)) {
                     String answer = "Stand";
 
-                    if (dealerHands.getTotal() < 17) {
+                    if (dealerHands.getTotal(true) < 17) {
                         answer = "Hit";
                     }
 
@@ -97,11 +97,11 @@ public class Game {
                         dealerHands.addCard(deck.drawCard());
                         dealerHands.setState();
 
-                        if (dealerHands.getTotal() == 21) {
+                        if (dealerHands.getTotal(true) == 21) {
                             dealerHands.setState("BJ");
                             checkWinner(dealerHands);
                         }
-                        if (dealerHands.getTotal() > 21) {
+                        if (dealerHands.getTotal(true) > 21) {
                             dealerHands.setState("Bust");
                             checkWinner(dealerHands);
                         }
@@ -135,12 +135,22 @@ public class Game {
         Displays.clearScreen();
         Displays.printHeader("Game Over", 30);
 
+        double total = 0;
         for (PlayerHand playerHand : playerHands) {
-            System.out.println(playerHand.color + "Player " + playerHand.getName() + " Got " + playerHand.getPoints() + " Points " + Hand.colorReset);
+            total += playerHand.getPoints();
         }
         if (playerCount == 1) {
-            System.out.println(dealerHands.color + "Dealer Got " + dealerHands.getPoints() + " Points " + Hand.colorReset);
+            total += dealerHands.getPoints();
         }
+
+        for (PlayerHand playerHand : playerHands) {
+            System.out.println(playerHand.color + "Player " + playerHand.getName() + " Got " + playerHand.getPoints() + " Points (" + String.format("%.2f",((playerHand.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
+        }
+        if (playerCount == 1) {
+            System.out.println(dealerHands.color + "Dealer Got " + dealerHands.getPoints() + " Points (" + String.format("%.2f",((dealerHands.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
+        }
+
+
 
         scanner.nextLine();
     }
@@ -182,7 +192,7 @@ public class Game {
         }
     }
     private void checkWinner(DealerHand dealerHand) {
-        switch (dealerHand.getTotal()) {
+        switch (dealerHand.getTotal(true)) {
         case 21 : {
             dealerHand.incrementPoints(21);
             break;
@@ -213,7 +223,7 @@ public class Game {
         }
         }
 
-        if (dealerHand.getTotal() < 15) {
+        if (dealerHand.getTotal(true) < 15) {
             dealerHand.incrementPoints(5);
         }
     }
@@ -227,22 +237,23 @@ public class Game {
             }
         }
 
+        if (!isStandBustOrBJ(dealerHands) && playerCount == 1) {
+            bool = true;
+        }
+
         return bool;
     }
 
+    private boolean isStandBustOrBJ(DealerHand dealerHand) {
+        return Objects.equals(dealerHand.getState(), "Stood") || Objects.equals(dealerHand.getState(), "Bust") || Objects.equals(dealerHand.getState(), "BJ");
+
+    }
     private boolean isStandBustOrBJ(PlayerHand playerHand) {
         return Objects.equals(playerHand.getState(), "Stood") || Objects.equals(playerHand.getState(), "Bust") || Objects.equals(playerHand.getState(), "BJ");
     }
 
     private boolean isDeckEmpty() {
         return deck.size() <= 0;
-    }
-
-    private boolean turnEnd() {
-
-
-
-        return true;
     }
 
     private void emptyHands() {

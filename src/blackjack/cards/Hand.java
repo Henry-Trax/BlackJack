@@ -53,10 +53,9 @@ abstract class Hand {
             state = "Bust";
         }
 
-        if (!Objects.equals(getState(), "Fold") || !Objects.equals(getState(), "Bust") || !Objects.equals(getState(), "BlackJack")) {
+        if (!Objects.equals(getState(), "Stand") || !Objects.equals(getState(), "Bust") || !Objects.equals(getState(), "BlackJack")) {
             this.state = String.valueOf(getTotal());
         }
-
     }
 
     public void setState(String state) {

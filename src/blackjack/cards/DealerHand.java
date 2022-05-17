@@ -1,5 +1,7 @@
 package blackjack.cards;
 
+import java.util.Objects;
+
 public class DealerHand extends Hand{
 
     private final String[] hiddenCard = new String[]{"┌─────┐","│/ / /│","│\\ \\ \\│","│/ / /│","└─────┘"};
@@ -12,9 +14,17 @@ public class DealerHand extends Hand{
         updateHandSprite();
     }
 
+    public int getTotal(boolean b) {
+        if (b) {
+            return super.getTotal();
+        } else {
+            return super.getTotal() - getCards().get(getCards().size() - 1).getCardScore();
+        }
+    }
+
     @Override
-    public int getTotal() {
-        return super.getTotal() - getCards().get(getCards().size() - 1).getCardScore();
+    public String getState() {
+        return super.getState();
     }
 
     @Override
@@ -47,6 +57,20 @@ public class DealerHand extends Hand{
 
             spriteCounter += 2;
             cardCounter++;
+        }
+    }
+
+    public void setState() {
+        if (getTotal() == 21) {
+            state = "BJ";
+        }
+
+        if (getTotal() > 21) {
+            state = "Bust";
+        }
+
+        if (!Objects.equals(getState(), "Stand") || !Objects.equals(getState(), "Bust") || !Objects.equals(getState(), "BlackJack")) {
+            this.state = String.valueOf(getTotal(false));
         }
     }
 
