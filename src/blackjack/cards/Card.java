@@ -70,7 +70,6 @@ public class Card {
         }
         createSprite();
     }
-
     private void createSprite() {
         sprite[1] = String.format((sprite[1]), value);
         sprite[3] = String.format((sprite[3]), value);
@@ -102,5 +101,13 @@ public class Card {
 
     public int getCardScore() {
         return cardScore;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public char getSuit() {
+        return suit;
     }
 }

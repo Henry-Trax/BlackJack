@@ -16,7 +16,7 @@ public class Settings {
             Displays.clearScreen();
 
             Displays.printHeader("Settings", 30);
-            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Exit\n", aceValue, decksInUser);
+            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Debug: %s\n4 Exit\n", aceValue, decksInUser, String.valueOf(isIsDebugging()));
 
             switch (UserInterface.askInt("Choose An Option: ")) {
             case 1 : {
@@ -28,15 +28,26 @@ public class Settings {
                 break;
             }
             case 3 : {
+                changeIsDebugging();
+                break;
+            }
+            case 4 : {
                 return;
             }
             default: {
-                System.out.println("Invalid Input");
-                Displays.waitXSeconds(1);
+            System.out.println("Invalid Input");
+            Displays.waitXSeconds(1);
             }
 
             }
         }
+    }
+
+    private static void changeIsDebugging() {
+        Displays.clearScreen();
+        Displays.printHeader("Debug", 30);
+        System.out.printf("Debugging: %s\n", String.valueOf(isIsDebugging()));
+        isDebugging = Boolean.parseBoolean(UserInterface.askString("Enter new value true or false: "));
     }
 
     private static void changeDeckInUse() {

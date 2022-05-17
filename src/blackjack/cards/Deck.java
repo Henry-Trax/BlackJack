@@ -79,7 +79,7 @@ public class Deck {
         deckCards.clear();
     }
 
-    private void makeDecks(int decksInUse) {
+    public void makeDecks(int decksInUse) {
         for (int i = 0; i < decksInUse - this.decksInUse; i++) {
             makeDeck();
         }
@@ -96,4 +96,5 @@ public class Deck {
     public int size() {
         return deckCards.size();
     }
+
 }

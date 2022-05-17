@@ -57,16 +57,21 @@ public class Game {
 
                         String answer;
 
-                        if (deck.size() <= 28) {
-                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + ",(" + (deck.size()) + " Cards Remaining) Hit or Stand : ");
+                        if (Settings.isIsDebugging()) {
+                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + "" +
+                                    "\n(" + (deck.size()) + " Cards Remaining)" +
+                                    "\n(Average Value: " + String.format("%.2f", deck.cardCountAverage()) + ") (\"Options\" for Options) Hit or Stand : ");
+
+                        } else if (deck.size() <= 28) {
+                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() +
+                                    "\n(" + (deck.size()) + " Cards Remaining) (\"Options\" for Options) Hit or Stand : ");
                         } else {
-                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + ", Hit or Stand : ");
+                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + ", (\"Options\" for Options) Hit or Stand : ");
                         }
                         System.out.print(Hand.colorReset);
 
-                        if (answer.toLowerCase().equals("hit")) {
+                        if (answer.toLowerCase().equals("hit") || answer.toLowerCase().equals("h")) {
                             playerHand.addCard(deck.drawCard());
-                            playerHand.setState();
 
                             if (playerHand.getTotal() == 21) {
                                 playerHand.setState("BJ");
@@ -76,12 +81,19 @@ public class Game {
                                 playerHand.setState("Bust");
                                 checkWinner(playerHand);
                             }
+                            playerHand.setState();
 
                             if (isDeckEmpty()) break;
 
-                        } else if (answer.toLowerCase().equals("stand")) {
+                        } else if (answer.toLowerCase().equals("stand") || answer.toLowerCase().equals("s")) {
                             playerHand.setState("Stood");
                             checkWinner(playerHand);
+                        }
+
+                        if (answer.toLowerCase().equals("options") || answer.toLowerCase().equals("o")) {
+                            Settings.start();
+                            deck.makeDecks(Settings.getDecksInUse());
+
                         }
                     }
                 }
@@ -89,7 +101,7 @@ public class Game {
                 if (playerCount == 1 && !isStandBustOrBJ(dealerHands)) {
                     String answer = "Stand";
 
-                    if (dealerHands.getTotal(true) < 17) {
+                    if (dealerHands.getTotal(true) < 17 && 21 - dealerHands.getTotal(true) > deck.cardCountAverage()) {
                         answer = "Hit";
                     }
 
@@ -158,7 +170,7 @@ public class Game {
     private void checkWinner(PlayerHand playerHand) {
         switch (playerHand.getTotal()) {
         case 21 : {
-            playerHand.incrementPoints(21);
+            playerHand.incrementPoints(30);
             break;
         }
         case 20 : {
@@ -166,29 +178,33 @@ public class Game {
             break;
         }
         case 19 : {
-            playerHand.incrementPoints(14);
-            break;
-        }
-        case 18 : {
             playerHand.incrementPoints(13);
             break;
         }
-        case 17 : {
-            playerHand.incrementPoints(12);
-            break;
-        }
-        case 16 : {
+        case 18 : {
             playerHand.incrementPoints(11);
             break;
         }
+        case 17 : {
+            playerHand.incrementPoints(9);
+            break;
+        }
+        case 16 : {
+            playerHand.incrementPoints(7);
+            break;
+        }
         case 15 : {
-            playerHand.incrementPoints(10);
+            playerHand.incrementPoints(5);
+            break;
+        }
+        case 2 : {
+            playerHand.incrementPoints(50);
             break;
         }
         }
 
         if (playerHand.getTotal() < 15) {
-            playerHand.incrementPoints(5);
+            playerHand.incrementPoints(3);
         }
     }
     private void checkWinner(DealerHand dealerHand) {
