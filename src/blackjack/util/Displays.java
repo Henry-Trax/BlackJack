@@ -12,9 +12,9 @@ public class Displays {
         }
     }
 
-    public static void waitXSeconds(int secs) {
+    public static void waitXSeconds(double secs) {
         try {
-            Thread.sleep(secs * 1000L);
+            Thread.sleep((long) (secs * 1000L));
 
         } catch (InterruptedException ignored) {
 
@@ -40,4 +40,116 @@ public class Displays {
         return string;
     }
 
+    public static void shuffleAnimation(int i) {
+        int b = 0;
+
+        while (b++ < i) {
+
+            if (true) printFrames();
+
+        }
+
+        waitXSeconds(0.5);
+    }
+
+    private static void printFrames() {
+
+        clearScreen();
+        System.out.println(
+                "┌┬─────┐    ┌─────┐" + "\n" +
+                "││     │    │     │" + "\n" +
+                "││  B  │    │  J  │" + "\n" +
+                "││     │    │     │" + "\n" +
+                "└┸─────┘    └─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─┬─────┐   ┌─────┐" + "\n" +
+                "│ │     │   │     │" + "\n" +
+                "│ │  B  │   │  J  │" + "\n" +
+                "│ │     │   │     │" + "\n" +
+                "└─┴─────┘   └─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌──┬─────┐  ┌─────┐" + "\n" +
+                "│  │     │  │     │" + "\n" +
+                "│  │  B  │  │  J  │" + "\n" +
+                "│  │     │  │     │" + "\n" +
+                "└──┴─────┘  └─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌───┬─────┐ ┌─────┐" + "\n" +
+                "│   │     │ │     │" + "\n" +
+                "│  B│  B  │ │  J  │" + "\n" +
+                "│   │     │ │     │" + "\n" +
+                "└───┴─────┘ └─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌────┬─────┐┌─────┐" + "\n" +
+                "│    │     ││     │" + "\n" +
+                "│  B │  B  ││  J  │" + "\n" +
+                "│    │     ││     │" + "\n" +
+                "└────┴─────┘└─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┬─────┬─────┐" + "\n" +
+                "│     │     │     │" + "\n" +
+                "│  B  │  B  │  J  │" + "\n" +
+                "│     │     │     │" + "\n" +
+                "└─────┴─────┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐┌────┬─────┐" + "\n" +
+                "│     ││    │     │" + "\n" +
+                "│  B  ││  B │  J  │" + "\n" +
+                "│     ││    │     │" + "\n" +
+                "└─────┘└────┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐ ┌───┬─────┐" + "\n" +
+                "│     │ │   │     │" + "\n" +
+                "│  B  │ │  B│  J  │" + "\n" +
+                "│     │ │   │     │" + "\n" +
+                "└─────┘ └───┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐  ┌──┬─────┐" + "\n" +
+                "│     │  │  │     │" + "\n" +
+                "│  B  │  │  │  J  │" + "\n" +
+                "│     │  │  │     │" + "\n" +
+                "└─────┘  └──┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐   ┌─┬─────┐" + "\n" +
+                "│     │   │ │     │" + "\n" +
+                "│  B  │   │ │  J  │" + "\n" +
+                "│     │   │ │     │" + "\n" +
+                "└─────┘   └─┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐    ┌┬─────┐" + "\n" +
+                "│     │    ││     │" + "\n" +
+                "│  B  │    ││  J  │" + "\n" +
+                "│     │    ││     │" + "\n" +
+                "└─────┘    └┴─────┘");
+        waitXSeconds(0.01);
+        clearScreen();
+        System.out.println(
+                "┌─────┐     ┌─────┐" + "\n" +
+                "│     │     │     │" + "\n" +
+                "│  B  │     │  J  │" + "\n" +
+                "│     │     │     │" + "\n" +
+                "└─────┘     └─────┘");
+        waitXSeconds(0.01);
+
+    }
 }

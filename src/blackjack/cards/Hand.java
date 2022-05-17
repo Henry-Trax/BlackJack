@@ -1,8 +1,8 @@
 package blackjack.cards;
 
-
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 abstract class Hand {
 
@@ -53,7 +53,7 @@ abstract class Hand {
             state = "Bust";
         }
 
-        if (!Objects.equals(getState(), "Stand") || !Objects.equals(getState(), "Bust") || !Objects.equals(getState(), "BlackJack")) {
+        if (!(Objects.equals(getState(), "Stand") || Objects.equals(getState(), "Bust") || Objects.equals(getState(), "BlackJack"))) {
             this.state = String.valueOf(getTotal());
         }
     }
@@ -70,13 +70,21 @@ abstract class Hand {
         return color;
     }
 
-    public void setColor() {
-        if (colourCount == 7) {
-            colourCount = 0;
-        }
+    public void setColor(boolean b) {
 
-        this.color = colors[colourCount++];
+        if (b) {
+            Random random = new Random();
+            this.color = "\u001b[38;5;" + (random.nextInt(211) + 20) + "m";
+
+        } else {
+            if (colourCount == 7) {
+                colourCount = 0;
+            }
+
+            this.color = colors[colourCount++];
+        }
     }
+
 
     protected void updateHandSprite() {
         handSprite.clear();

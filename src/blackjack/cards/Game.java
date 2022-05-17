@@ -23,6 +23,9 @@ public class Game {
     public void run() {
 
         deck = new Deck(Settings.getAceValue(), Settings.getDecksInUse());
+
+        Displays.shuffleAnimation(3);
+
         instantiateHands();
 
         while (deck.size() > 0) {
@@ -60,18 +63,19 @@ public class Game {
                         if (Settings.isIsDebugging()) {
                             answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + "" +
                                     "\n(" + (deck.size()) + " Cards Remaining)" +
-                                    "\n(Average Value: " + String.format("%.2f", deck.cardCountAverage()) + ") (\"Options\" for Options) Hit or Stand : ");
+                                    "\n(Average Value: " + String.format("%.2f", deck.cardCountAverage()) + ") Hit, Stand, Options or End : ");
 
                         } else if (deck.size() <= 28) {
                             answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() +
-                                    "\n(" + (deck.size()) + " Cards Remaining) (\"Options\" for Options) Hit or Stand : ");
+                                    "\n(" + (deck.size()) + " Cards Remaining) Hit, Stand, Options or End : ");
                         } else {
-                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + ", (\"Options\" for Options) Hit or Stand : ");
+                            answer = UserInterface.askString("\n" + playerHand.getColor() + "Player - " + playerHand.getName() + ", Hit, Stand, Options or End : ");
                         }
                         System.out.print(Hand.colorReset);
 
                         if (answer.toLowerCase().equals("hit") || answer.toLowerCase().equals("h")) {
                             playerHand.addCard(deck.drawCard());
+                            playerHand.setState();
 
                             if (playerHand.getTotal() == 21) {
                                 playerHand.setState("BJ");
@@ -81,7 +85,6 @@ public class Game {
                                 playerHand.setState("Bust");
                                 checkWinner(playerHand);
                             }
-                            playerHand.setState();
 
                             if (isDeckEmpty()) break;
 
@@ -93,7 +96,12 @@ public class Game {
                         if (answer.toLowerCase().equals("options") || answer.toLowerCase().equals("o")) {
                             Settings.start();
                             deck.makeDecks(Settings.getDecksInUse());
+                            Displays.shuffleAnimation(3);
+                        }
 
+                        if (answer.toLowerCase().equals("end") || answer.toLowerCase().equals("e")) {
+                            deck.empty();
+                            if (isDeckEmpty()) break;
                         }
                     }
                 }
@@ -126,6 +134,7 @@ public class Game {
                     }
                 }
 
+
                 if (isDeckEmpty()) break;
 
             } while (isNotEndOfRound());
@@ -135,6 +144,7 @@ public class Game {
             displayAllHands(true);
             System.out.println("Round Over");
             scanner.nextLine();
+            Displays.shuffleAnimation(1);
 
             emptyHands();
         }
@@ -154,6 +164,8 @@ public class Game {
         if (playerCount == 1) {
             total += dealerHands.getPoints();
         }
+
+        if (total == 0) total = 0.000001;
 
         for (PlayerHand playerHand : playerHands) {
             System.out.println(playerHand.color + "Player " + playerHand.getName() + " Got " + playerHand.getPoints() + " Points (" + String.format("%.2f",((playerHand.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
@@ -386,8 +398,8 @@ public class Game {
                 name = name.substring(0, hand.getCards().size() + 9);
             }
 
-            screenDisplay.set(0, (screenDisplay.get(0) + String.format(hand.getColor() + "%-" + (hand.getCards().size() + 11) + "s" + Hand.colorReset,"Player: ")));
-            screenDisplay.set(1, (screenDisplay.get(1) + String.format(hand.getColor() + "%-" + (hand.getCards().size() + 11) + "s" + Hand.colorReset,name)));
+            screenDisplay.set(0, (screenDisplay.get(0) + String.format(hand.getColor() + "%-" + (hand.getCards().size() + 11) + "s" + Hand.colorReset, "Player: ")));
+            screenDisplay.set(1, (screenDisplay.get(1) + String.format(hand.getColor() + "%-" + (hand.getCards().size() + 11) + "s" + Hand.colorReset, name)));
         }
     }
 }

@@ -8,6 +8,7 @@ public class Settings {
     private static int aceValue = 1;
     private static int decksInUser = 1;
     private static boolean isDebugging = false;
+    private static boolean twoHundredElevenColors = true;
 
 
     public static void start() {
@@ -16,7 +17,7 @@ public class Settings {
             Displays.clearScreen();
 
             Displays.printHeader("Settings", 30);
-            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Debug: %s\n4 Exit\n", aceValue, decksInUser, String.valueOf(isIsDebugging()));
+            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Debug: %s\n4 Using 211 colors: %s\n5 Exit\n", aceValue, decksInUser, String.valueOf(isIsDebugging()), String.valueOf(isTwoHundredElevenColors()));
 
             switch (UserInterface.askInt("Choose An Option: ")) {
             case 1 : {
@@ -32,6 +33,10 @@ public class Settings {
                 break;
             }
             case 4 : {
+                changTwoHundredElevenColors();
+                break;
+            }
+            case 5 : {
                 return;
             }
             default: {
@@ -43,10 +48,17 @@ public class Settings {
         }
     }
 
+    private static void changTwoHundredElevenColors() {
+        Displays.clearScreen();
+        Displays.printHeader("Color", 30);
+        System.out.printf("Use 211 colors: %s\n", isTwoHundredElevenColors());
+        twoHundredElevenColors = Boolean.parseBoolean(UserInterface.askString("Enter new value true or false: "));
+    }
+
     private static void changeIsDebugging() {
         Displays.clearScreen();
         Displays.printHeader("Debug", 30);
-        System.out.printf("Debugging: %s\n", String.valueOf(isIsDebugging()));
+        System.out.printf("Debugging: %s\n", isIsDebugging());
         isDebugging = Boolean.parseBoolean(UserInterface.askString("Enter new value true or false: "));
     }
 
@@ -86,5 +98,13 @@ public class Settings {
 
     public static void setIsDebugging(boolean isDebugging) {
         Settings.isDebugging = isDebugging;
+    }
+
+    public static boolean isTwoHundredElevenColors() {
+        return twoHundredElevenColors;
+    }
+
+    public static void setTwoHundredElevenColors(boolean twoHundredElevenColors) {
+        Settings.twoHundredElevenColors = twoHundredElevenColors;
     }
 }

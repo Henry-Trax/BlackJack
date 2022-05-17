@@ -1,12 +1,14 @@
 package blackjack.cards;
 
+import blackjack.menus.Settings;
+
 import java.util.Objects;
 
 public class DealerHand extends Hand{
 
     private final String[] hiddenCard = new String[]{"┌─────┐","│/ / /│","│\\ \\ \\│","│/ / /│","└─────┘"};
     public DealerHand() {
-        this.setColor();
+        this.setColor(Settings.isTwoHundredElevenColors());
     }
 
     protected void addCard(Card card) {

@@ -1,6 +1,6 @@
 import blackjack.menus.Menu;
 
-public class RunGame {
+public class BJ {
 
     public static void main(String[] args) {
         try {

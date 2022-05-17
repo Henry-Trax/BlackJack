@@ -1,12 +1,14 @@
 package blackjack.cards;
 
+import blackjack.menus.Settings;
+
 public class PlayerHand extends Hand {
 
     private String name;
 
     public PlayerHand(String name) {
         this.setName(name);
-        this.setColor();
+        this.setColor(Settings.isTwoHundredElevenColors());
     }
 
     protected void addCard(Card card) {

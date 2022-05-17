@@ -97,4 +97,7 @@ public class Deck {
         return deckCards.size();
     }
 
+    public void empty() {
+        deckCards.clear();
+    }
 }
