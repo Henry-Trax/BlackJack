@@ -4,9 +4,12 @@ package blackjack.cards;
 import blackjack.menus.Settings;
 import blackjack.util.Displays;
 import blackjack.util.UserInterface;
+import blackjack.ai.Ai;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+
 
 public class Game {
 
@@ -14,7 +17,7 @@ public class Game {
     private Deck deck;
     private ArrayList<PlayerHand> playerHands = new ArrayList<PlayerHand>();
     private int playerCount = 0;
-    private DealerHand dealerHands;
+    private DealerHand dealerHand;
 
     public Game() {
         deck = new Deck(Settings.getAceValue(), Settings.getDecksInUse());
@@ -24,7 +27,7 @@ public class Game {
 
         deck = new Deck(Settings.getAceValue(), Settings.getDecksInUse());
 
-        Displays.shuffleAnimation(3);
+        Displays.shuffleAnimation(1);
 
         instantiateHands();
 
@@ -40,12 +43,12 @@ public class Game {
 
             if (isDeckEmpty()) break;
 
-            if (playerCount == 1) {
-                dealerHands.addCard(deck.drawCard());
+            if (Settings.getAiActivity(playerCount)) {
+                dealerHand.addCard(deck.drawCard());
                 if (isDeckEmpty()) break;
-                dealerHands.addCard(deck.drawCard());
+                dealerHand.addCard(deck.drawCard());
                 if (isDeckEmpty()) break;
-                dealerHands.setState();
+                dealerHand.setState();
             }
 
             if (isDeckEmpty()) break;
@@ -94,9 +97,18 @@ public class Game {
                         }
 
                         if (answer.toLowerCase().equals("options") || answer.toLowerCase().equals("o")) {
+                            boolean bool = Settings.isAiThreshold();
+
                             Settings.start();
                             deck.makeDecks(Settings.getDecksInUse());
-                            Displays.shuffleAnimation(3);
+
+                            if (!bool && Settings.isAiThreshold()) {
+                                dealerHand.addCard(deck.drawCard());
+                                dealerHand.setState();
+                            }
+
+                            Displays.shuffleAnimation(1);
+                            break;
                         }
 
                         if (answer.toLowerCase().equals("end") || answer.toLowerCase().equals("e")) {
@@ -106,31 +118,36 @@ public class Game {
                     }
                 }
 
-                if (playerCount == 1 && !isStandBustOrBJ(dealerHands)) {
+                if (isDeckEmpty()) break;
+
+                if (Settings.getAiActivity(playerCount) && !isStandBustOrBJ(dealerHand)) {
                     String answer = "Stand";
 
-                    if (dealerHands.getTotal(true) < 17 && 21 - dealerHands.getTotal(true) > deck.cardCountAverage()) {
-                        answer = "Hit";
-                    }
+                    answer = Ai.makeMove(deck, dealerHand);
+
+                    Displays.clearScreen();
+                    displayAllHands(false);
+                    System.out.println(dealerHand.getColor() + "Dealer Chooses: " + answer + Hand.colorReset);
+                    Displays.waitXSeconds(1);
 
                     if (answer.toLowerCase().equals("hit")) {
-                        dealerHands.addCard(deck.drawCard());
-                        dealerHands.setState();
+                        dealerHand.addCard(deck.drawCard());
+                        dealerHand.setState();
 
-                        if (dealerHands.getTotal(true) == 21) {
-                            dealerHands.setState("BJ");
-                            checkWinner(dealerHands);
+                        if (dealerHand.getTotal(true) == 21) {
+                            dealerHand.setState("BJ");
+                            checkWinner(dealerHand);
                         }
-                        if (dealerHands.getTotal(true) > 21) {
-                            dealerHands.setState("Bust");
-                            checkWinner(dealerHands);
+                        if (dealerHand.getTotal(true) > 21) {
+                            dealerHand.setState("Bust");
+                            checkWinner(dealerHand);
                         }
 
                         if (isDeckEmpty()) break;
 
                     } else if (answer.toLowerCase().equals("stand")) {
-                        dealerHands.setState("Stood");
-                        checkWinner(dealerHands);
+                        dealerHand.setState("Stood");
+                        checkWinner(dealerHand);
                     }
                 }
 
@@ -140,7 +157,7 @@ public class Game {
             } while (isNotEndOfRound());
 
             Displays.clearScreen();
-            dealerHands.superUpdateHandSprite();
+            dealerHand.superUpdateHandSprite();
             displayAllHands(true);
             System.out.println("Round Over");
             scanner.nextLine();
@@ -161,8 +178,8 @@ public class Game {
         for (PlayerHand playerHand : playerHands) {
             total += playerHand.getPoints();
         }
-        if (playerCount == 1) {
-            total += dealerHands.getPoints();
+        if (Settings.getAiActivity(playerCount)) {
+            total += dealerHand.getPoints();
         }
 
         if (total == 0) total = 0.000001;
@@ -170,8 +187,8 @@ public class Game {
         for (PlayerHand playerHand : playerHands) {
             System.out.println(playerHand.color + "Player " + playerHand.getName() + " Got " + playerHand.getPoints() + " Points (" + String.format("%.2f",((playerHand.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
         }
-        if (playerCount == 1) {
-            System.out.println(dealerHands.color + "Dealer Got " + dealerHands.getPoints() + " Points (" + String.format("%.2f",((dealerHands.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
+        if (Settings.getAiActivity(playerCount)) {
+            System.out.println(dealerHand.color + "Dealer Got " + dealerHand.getPoints() + " Points (" + String.format("%.2f",((dealerHand.getPoints() / total) * 100)) + "%)" + Hand.colorReset);
         }
 
 
@@ -265,7 +282,7 @@ public class Game {
             }
         }
 
-        if (!isStandBustOrBJ(dealerHands) && playerCount == 1) {
+        if (!isStandBustOrBJ(dealerHand) && Settings.getAiActivity(playerCount)) {
             bool = true;
         }
 
@@ -290,13 +307,14 @@ public class Game {
             playerHand.setState("0");
         }
 
-        dealerHands.emptyHand();
+        dealerHand.emptyHand();
     }
 
     private void turnStart() {
     }
 
     public void instantiateHands() {
+
         while (playerCount > 7 || playerCount < 1) {
             Displays.clearScreen();
             playerCount = UserInterface.askInt("How many players are there? (Max Players 7) : ");
@@ -307,10 +325,10 @@ public class Game {
             playerHands.get(i).setState("inplay");
         }
 
-        dealerHands = new DealerHand();
+        dealerHand = new DealerHand();
 
-        if (playerCount == 1) {
-            dealerHands.setState("Inactive");
+        if (Settings.getAiActivity(playerCount)) {
+            dealerHand.setState("Inactive");
         }
     }
 
@@ -324,7 +342,7 @@ public class Game {
             }
         }
 
-        if (dealerHands.getHandSprite().size() > maximumHandSize) maximumHandSize = dealerHands.getHandSprite().size();
+        if (dealerHand.getHandSprite().size() > maximumHandSize) maximumHandSize = dealerHand.getHandSprite().size();
 
         screenDisplay.add("");
         screenDisplay.add("");
@@ -341,7 +359,7 @@ public class Game {
 
         addPointsToDisplay(screenDisplay);
 
-        if (playerHands.size() == 1) {
+        if (Settings.getAiActivity(playerCount)) {
             addDealerToDisplay(screenDisplay, b);
         }
 
@@ -358,14 +376,14 @@ public class Game {
     }
 
     private void addDealerToDisplay(ArrayList<String> screenDisplay, boolean b) {
-        screenDisplay.set(0, (screenDisplay.get(0) + String.format(dealerHands.getColor() + "%-" + (dealerHands.getCards().size() + 11) + "s" + Hand.colorReset,"Dealer:")));
+        screenDisplay.set(0, (screenDisplay.get(0) + String.format(dealerHand.getColor() + "%-" + (dealerHand.getCards().size() + 11) + "s" + Hand.colorReset,"Dealer:")));
 
-        for (int i = 0; i < dealerHands.getHandSprite().size(); i++) {
-            screenDisplay.set(i + 2, (screenDisplay.get(i + 2) + String.format(dealerHands.getColor() + "%-" + (dealerHands.getCards().size() + 11) + "s" + Hand.colorReset, dealerHands.getHandSprite().get(i))));
+        for (int i = 0; i < dealerHand.getHandSprite().size(); i++) {
+            screenDisplay.set(i + 2, (screenDisplay.get(i + 2) + String.format(dealerHand.getColor() + "%-" + (dealerHand.getCards().size() + 11) + "s" + Hand.colorReset, dealerHand.getHandSprite().get(i))));
         }
 
-        screenDisplay.set(screenDisplay.size() - 1, (screenDisplay.get(screenDisplay.size() - 1) + String.format(dealerHands.getColor() + "%-" + (dealerHands.getCards().size() + 11) + "s" + Hand.colorReset, "Points: " + dealerHands.getPoints())));
-        screenDisplay.set(screenDisplay.size() - 2, (screenDisplay.get(screenDisplay.size() - 2) + String.format(dealerHands.getColor() + "%-" + (dealerHands.getCards().size() + 11) + "s" + Hand.colorReset, "State: " + dealerHands.getState())));
+        screenDisplay.set(screenDisplay.size() - 1, (screenDisplay.get(screenDisplay.size() - 1) + String.format(dealerHand.getColor() + "%-" + (dealerHand.getCards().size() + 11) + "s" + Hand.colorReset, "Points: " + dealerHand.getPoints())));
+        screenDisplay.set(screenDisplay.size() - 2, (screenDisplay.get(screenDisplay.size() - 2) + String.format(dealerHand.getColor() + "%-" + (dealerHand.getCards().size() + 11) + "s" + Hand.colorReset, "State: " + dealerHand.getState())));
     }
 
     private void addStatesToDisplay(ArrayList<String> screenDisplay) {

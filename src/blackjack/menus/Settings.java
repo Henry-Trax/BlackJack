@@ -9,6 +9,9 @@ public class Settings {
     private static int decksInUser = 1;
     private static boolean isDebugging = false;
     private static boolean twoHundredElevenColors = true;
+    private static int difficulty = 1;
+
+    private static boolean aiThreshold = true;
 
 
     public static void start() {
@@ -17,7 +20,7 @@ public class Settings {
             Displays.clearScreen();
 
             Displays.printHeader("Settings", 30);
-            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Debug: %s\n4 Using 211 colors: %s\n5 Exit\n", aceValue, decksInUser, String.valueOf(isIsDebugging()), String.valueOf(isTwoHundredElevenColors()));
+            System.out.printf("1 AceValue: %d\n2 DecksInUse: %d\n3 Debug: %s\n4 Using 211 colors: %s\n5 Ai Difficulty: %d\n6 Dealer Plays: %s\n7 Exit\n", aceValue, decksInUser, String.valueOf(isIsDebugging()), String.valueOf(isTwoHundredElevenColors()), difficulty, aiThreshold);
 
             switch (UserInterface.askInt("Choose An Option: ")) {
             case 1 : {
@@ -37,6 +40,14 @@ public class Settings {
                 break;
             }
             case 5 : {
+                changeDifficulty();
+                break;
+            }
+            case 6 : {
+                changeAiThreshold();
+                break;
+            }
+            case 7 : {
                 return;
             }
             default: {
@@ -46,6 +57,23 @@ public class Settings {
 
             }
         }
+    }
+
+    private static void changeAiThreshold() {
+        Displays.clearScreen();
+        Displays.printHeader("Dealer", 30);
+        System.out.printf("Dealer plays: %s\n", aiThreshold);
+        aiThreshold = Boolean.parseBoolean(UserInterface.askString("Enter new value true or false: "));
+    }
+
+    private static void changeDifficulty() {
+        Displays.clearScreen();
+        Displays.printHeader("Ai Difficulty", 30);
+        System.out.printf("Ai Difficulty: %d\n", difficulty);
+
+        do {
+            difficulty = UserInterface.askInt("New value for difficulty 1 - 3: ");
+        } while (difficulty < 1 || difficulty > 3);
     }
 
     private static void changTwoHundredElevenColors() {
@@ -106,5 +134,27 @@ public class Settings {
 
     public static void setTwoHundredElevenColors(boolean twoHundredElevenColors) {
         Settings.twoHundredElevenColors = twoHundredElevenColors;
+    }
+
+    public static int getDifficulty() {
+        return difficulty;
+    }
+
+    public static void setDifficulty(int difficulty) {
+        Settings.difficulty = difficulty;
+    }
+
+    public static boolean getAiActivity(int playerCount) {
+        int val = 1;
+
+        if (aiThreshold) {
+            val = 7;
+        }
+
+        return val >= playerCount;
+    }
+
+    public static boolean isAiThreshold() {
+        return aiThreshold;
     }
 }

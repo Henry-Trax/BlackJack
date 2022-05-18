@@ -100,4 +100,8 @@ public class Deck {
     public void empty() {
         deckCards.clear();
     }
+
+    public ArrayList<Card> getCards() {
+        return deckCards;
+    }
 }
